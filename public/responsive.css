@@ -1,0 +1,177 @@
+/* Shared responsive layout. Keep tables scrollable within their own panels. */
+html { -webkit-text-size-adjust: 100%; }
+body { min-width: 0; }
+img, svg, video, canvas { max-width: 100%; }
+input, select, textarea, button { min-width: 0; max-width: 100%; }
+input, select, textarea { font-size: 16px; }
+button, a, summary { touch-action: manipulation; }
+button { min-height: 44px; overflow-wrap: anywhere; }
+button:focus-visible, a:focus-visible, summary:focus-visible, .scroll:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+main, .page, .auth-layout > *, .columns > *, .wallet-overview > *, .section-heading > *, .table-grid > *, .tile-body, .profile-photo > div, .admin-wrap, #admin-content { min-width: 0; }
+main { width: 100%; max-width: 1440px; padding: clamp(16px, 3vw, 42px) clamp(12px, 3vw, 40px); }
+header { height: auto; min-height: 80px; padding: 16px clamp(12px, 4vw, 64px); flex-wrap: wrap; }
+.brand { flex-shrink: 0; }
+.top-tag { flex: 1; text-align: center; }
+#account-nav { flex-shrink: 0; }
+h1, .page h1 { font-size: clamp(34px, 5.2vw, 72px); overflow-wrap: anywhere; }
+h2, p, small, strong, #game-message, #admin-status, #stakes, .hand-item { overflow-wrap: anywhere; }
+.auth-layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 80px); min-height: min(690px, 78svh); }
+.entry { width: 100%; min-width: 0; }
+.features { flex-wrap: wrap; }
+.subnav { min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; }
+.subnav > div { min-width: 0; display: flex; justify-content: center; overflow-x: auto; overscroll-behavior-inline: contain; }
+.subnav > div > * { flex: 0 0 auto; white-space: nowrap; }
+.subnav > button { margin: 0; }
+#admin-link { display: inline-flex; align-items: center; min-height: 44px; }
+.table-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.wallet-overview { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); }
+.section-heading { flex-wrap: wrap; }
+.section-heading > :first-child { flex: 1 1 280px; }
+.section-heading > .balance-card { flex: 0 1 320px; }
+.balance-card { min-width: 0; }
+.balance-card strong { font-size: clamp(28px, 4vw, 40px); }
+.tile-top { flex-wrap: wrap; gap: 8px; }
+.tile-meta { flex-wrap: wrap; }
+.packs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.packs button { min-width: 0; }
+.profile-photo { flex-wrap: wrap; }
+.profile-photo > img { flex-shrink: 0; }
+.profile-photo > div { flex: 1 1 170px; }
+.profile-photo input { max-width: 100%; }
+.scroll { width: 100%; max-width: 100%; min-width: 0; overflow: auto; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
+.scroll table { min-width: 640px; }
+footer { flex-wrap: wrap; gap: 12px; line-height: 1.6; }
+#toast { max-height: 40svh; overflow-y: auto; bottom: max(16px, env(safe-area-inset-bottom)); overflow-wrap: anywhere; }
+/* Desktop and tablet table: seat widths leave a clear central card area. */
+.game-heading { flex-wrap: wrap; gap: 12px; }
+.game-heading > :first-child { min-width: 0; flex: 1 1 220px; }
+.game-heading .right { flex-shrink: 0; max-width: 100%; }
+.table-stage { height: clamp(510px, 48vw, 600px); min-height: 0; width: 100%; margin-top: 20px; }
+.felt { inset: 76px clamp(48px, 7vw, 105px); }
+.center { top: 50%; transform: translateY(-50%); }
+.table-mark { top: 26px; }
+.seat { width: clamp(132px, 15vw, 190px); min-height: 110px; padding: 10px; }
+.seat.s0, .seat.s2 { left: 50%; transform: translateX(-50%); }
+.seat.s0 { bottom: 0; top: auto; }
+.seat.s2 { top: 0; bottom: auto; }
+.seat.s1, .seat.s3 { top: 50%; bottom: auto; transform: translateY(-50%); }
+.seat.s1 { left: 0; }
+.seat.s3 { right: 0; }
+.seat strong { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; line-height: 1.25; }
+.seat-head { min-width: 0; }
+.seat-head strong { min-width: 0; }
+.seat-avatar { flex-shrink: 0; }
+.seat .card { width: clamp(34px, 4vw, 49px); height: clamp(48px, 5.5vw, 67px); font-size: clamp(18px, 2vw, 24px); flex-shrink: 0; }
+.center .card { width: clamp(33px, 4.2vw, 51px); height: clamp(49px, 6vw, 73px); font-size: clamp(18px, 2.4vw, 24px); flex-shrink: 0; }
+/* Result and countdown sit below the felt, never over a card or player. */
+.table-status { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; min-height: 44px; margin-top: 16px; }
+.winner-banner, .countdown-banner { position: static; transform: none; min-width: 0; max-width: 100%; margin: 0; }
+.winner-banner { padding: 12px 18px; }
+.winner-banner strong { font-size: clamp(16px, 2vw, 22px); }
+.countdown-banner { white-space: normal; text-align: center; }
+.celebrate { animation-name: responsive-win; }
+@keyframes responsive-win { from { opacity: 0; scale: .85; } to { opacity: 1; scale: 1; } }
+.controls { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(0, 3fr); gap: 16px; }
+.action-buttons { min-width: 0; justify-content: flex-end; }
+.raise-label { min-width: 100px; }
+.raise-label input { width: 100%; }
+.admin-wrap { width: 100%; max-width: 1440px; padding: clamp(12px, 3vw, 32px); }
+.admin-top { flex-wrap: wrap; }
+.admin-top > * { min-width: 0; }
+.admin-top > div:last-child { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.admin-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.admin-stats strong { font-size: clamp(22px, 3vw, 28px); }
+.admin-controls { min-width: 220px; }
+.admin-table input { font-size: 16px; }
+.admin-filter { width: 100%; }
+.admin-tabs { gap: 8px; }
+@media (min-width: 1600px) { .table-stage { max-width: 1200px; margin-inline: auto; } }
+@media (max-width: 1000px) {
+  .top-tag { display: none; }
+  .auth-layout { gap: 28px; }
+  .controls { grid-template-columns: minmax(0, 1fr); }
+  .action-buttons { justify-content: center; }
+  .admin-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .auth-layout { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .auth-layout .intro h1 { font-size: clamp(34px, 7vw, 48px); }
+  .entry { max-width: 520px; margin-inline: auto; }
+  .columns, .wallet-overview { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .section-heading { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .section-heading > .balance-card { width: 100%; }
+  .panel { padding: clamp(14px, 3vw, 22px); }
+  .filterbar { flex-wrap: wrap; gap: 12px; }
+}
+@media (max-width: 600px) {
+  .table-grid { grid-template-columns: minmax(0, 1fr); }
+  .tile-top { flex-direction: row; align-items: center; }
+  .tile-art { height: 120px; }
+  .mini-felt { width: 170px; height: 76px; }
+  .tile-top h2 { font-size: 24px; }
+  .tile-body { padding: 18px; }
+  .tile-meta b { font-size: 18px; }
+  .tile-meta span { font-size: 10px; }
+  .table-tile button { font-size: 13px; }
+  .occupancy { font-size: 11px; }
+  .subnav { grid-template-columns: auto minmax(0, 1fr) auto; margin-bottom: 22px; }
+  .subnav > div { grid-row: 2; grid-column: 1 / -1; justify-content: flex-start; }
+  .subnav > #back { grid-column: 1; grid-row: 1; }
+  .subnav > #logout { grid-column: 3; grid-row: 1; }
+  .subnav button { font-size: 12px; }
+  .game-heading .right { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; }
+  .game-heading .small { margin: 0; font-size: 11px; }
+  /* Four distinct grid rows prevent side seats from covering board/hole cards. */
+  .table-stage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto 125px auto auto; gap: 12px; height: auto; min-height: 0; }
+  #seats { display: contents; }
+  .felt { inset: 62px 7px 70px; border-width: 9px; z-index: -1; }
+  .felt .center { top: 76px; transform: none; }
+  .table-mark { top: 30px; font-size: 9px; }
+  .seat { position: relative; width: min(100%, 145px); min-height: 110px; padding: 8px; margin: 0; }
+  .seat.s0, .seat.s1, .seat.s2, .seat.s3 { top: auto; right: auto; bottom: auto; left: auto; transform: none; }
+  .seat.s2 { grid-area: 1 / 1 / 2 / 3; justify-self: center; }
+  .seat.s1 { grid-area: 3 / 1 / 4 / 2; justify-self: start; }
+  .seat.s3 { grid-area: 3 / 2 / 4 / 3; justify-self: end; }
+  .seat.s0 { grid-area: 4 / 1 / 5 / 3; justify-self: center; }
+  .seat strong { font-size: 11px; }
+  .seat small { font-size: 10px; }
+  .seat-avatar { width: 26px; height: 26px; }
+  .seat .card { width: 34px; height: 46px; font-size: 18px; }
+  .center .cards { gap: 4px; }
+  .center .card { width: clamp(28px, 9vw, 40px); height: clamp(43px, 13vw, 56px); font-size: clamp(16px, 5vw, 21px); }
+  #pot { font-size: 14px; margin-bottom: 8px; }
+  #street { margin-top: 8px; }
+  .action-buttons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: end; }
+  .action-buttons button { width: 100%; padding: 12px 8px; font-size: 13px; }
+  .action-buttons .raise-label { grid-column: 1 / -1; min-width: 0; font-size: 12px; }
+  .raise-label input { margin: 6px 0 0; padding: 12px; font-size: 16px; }
+  .controls { padding: 16px; }
+  .table-status { margin-top: 12px; }
+  .winner-banner { width: 100%; }
+  .admin-tabs > button { flex: 1 1 85px; }
+}
+@media (max-width: 360px) {
+  header { gap: 8px; padding: 12px; }
+  .brand { gap: 6px; font-size: 24px; }
+  .brand > span { font-size: 14px; letter-spacing: 1px; }
+  .brand small { font-size: 7px; letter-spacing: 2px; }
+  #account-nav { gap: 6px; }
+  .wallet-pill { padding: 8px; font-size: 11px; }
+  .avatar-button { width: 32px; height: 32px; }
+  .packs { grid-template-columns: minmax(0, 1fr); }
+  .packs button { padding: 14px; }
+  .packs small { margin: 6px 0; }
+  .admin-stats { gap: 10px; }
+  .admin-stats .panel { padding: 12px; }
+}
+@media (max-height: 520px) and (min-width: 601px) {
+  header { min-height: 60px; padding-block: 10px; }
+  .table-stage { height: 420px; }
+  .felt { inset-block: 64px; }
+  .seat { min-height: 90px; padding: 7px; }
+  .seat .card { width: 30px; height: 42px; font-size: 17px; }
+  .seat-avatar { width: 24px; height: 24px; }
+  .table-mark { top: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .celebrate { animation: none; } }
