@@ -1,8 +1,8 @@
 {
   "name": "poker-four-club",
-  "version": "3.0.0",
+  "version": "5.0.0",
   "private": true,
-  "description": "Live multiplayer virtual-chip poker with Aiven PostgreSQL, Cloudinary and administrator tools",
+  "description": "Five multiplayer card games with administrator-assigned virtual chips, Aiven PostgreSQL and Cloudinary",
   "engines": {
     "node": ">=24.0.0"
   },

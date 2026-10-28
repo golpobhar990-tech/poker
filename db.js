@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path');
 const {AsyncLocalStorage}=require('node:async_hooks');
 const {Game}=require('./game');
+const {Variant,restore}=require('./variants');
 const context=new AsyncLocalStorage();
 async function openDatabase(filename,{pool:providedPool}={}){
  let db;
@@ -35,6 +36,8 @@ async function openDatabase(filename,{pool:providedPool}={}){
   const g=new Game(String(i+1));g.smallBlind=sb;g.bigBlind=bb;
   await db.prepare('INSERT INTO poker_tables(id,name,small_blind,big_blind,buy_in,state) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING').run(i+1,name,sb,bb,buy,JSON.stringify(g));
  }
+ const extra=[['omaha','Omaha Lounge',25,50,2500],['teen','Teen Patti Club',10,20,1000],['draw','Five-card Studio',10,20,1000],['blackjack','Blackjack Tournament',25,50,1000]];
+ for(const [i,[type,name,sb,bb,buy]] of extra.entries()){const g=new Variant(String(i+7),type);g.smallBlind=sb;g.bigBlind=bb;await db.prepare('INSERT INTO poker_tables(id,name,small_blind,big_blind,buy_in,state) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING').run(i+7,name,sb,bb,buy,JSON.stringify(g));}
  });return db;
 }
 async function transaction(db,fn){
@@ -50,7 +53,7 @@ async function transaction(db,fn){
  const previous=db.queue;let release;db.queue=new Promise(r=>release=r);await previous;
  try{db.exec('BEGIN IMMEDIATE');const out=await context.run({db},fn);db.exec('COMMIT');return out;}catch(e){db.exec('ROLLBACK');throw e;}finally{release();}
 }
-function load(row){return Object.assign(Object.create(Game.prototype),JSON.parse(row.state));}
+function load(row){return restore(JSON.parse(row.state));}
 async function save(db,id,g){g.revision=(g.revision||0)+1;await db.prepare('UPDATE poker_tables SET state=? WHERE id=?').run(JSON.stringify(g),id);}
 async function ledger(db,userId,kind,amount,reference=''){const u=await db.prepare('SELECT chips FROM users WHERE id=?').get(userId);await db.prepare('INSERT INTO ledger(user_id,kind,amount,balance_after,reference,created_at) VALUES(?,?,?,?,?,?)').run(userId,kind,amount,u.chips,reference,Date.now());}
 module.exports={openDatabase,transaction,load,save,ledger};

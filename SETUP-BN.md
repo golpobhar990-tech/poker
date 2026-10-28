@@ -1,3 +1,5 @@
+# সর্বশেষ multi-game setup-এর জন্য UPDATE-BN.md পড়ুন।
+
 # বাংলায় সেটআপ
 
 এটি virtual chips-এর multiplayer poker app। Chips কেনাবেচা, USDT, deposit বা withdraw নেই। কোনো fake player বা demo account বানানো হয় না।
@@ -59,7 +61,7 @@ ADMIN_NAME=Club administrator
 ADMIN_PASSWORD=YOUR_LONG_UNIQUE_PASSWORD
 ```
 
-Username ৩–২৪টি lowercase letter/digit/underscore; প্রথমটি letter। Password ১০–১২৮ character। এরপর:
+Username ৩–২৫টি lowercase letter/digit/underscore; প্রথমটি letter। Password ১০–১২৮ character। এরপর:
 
 ```bash
 npm run admin:create
@@ -73,18 +75,18 @@ npm run admin:create
 npm start
 ```
 
-Browser-এ `http://localhost:5000` খোলো। Admin account দিয়ে login করে Admin panel link অথবা `/admin` খোলো।
+Browser-এ `http://localhost:5000` খোলো। Admin account দিয়ে সরাসরি `/admin`-এ login করো। Player ও admin login আলাদা।
 
 Windows-এ `.env` পূরণ করার পরে `START-WINDOWS.bat` চালাতে পারো। প্রথম admin তৈরির command আলাদাভাবে একবার চালাতে হবে।
 
 ## ৭. কী কাজ করবে
 
 - User signup/login, profile photo, settings ও hand history।
-- দুইজন player seat নিলে পাঁচ সেকেন্ড পরে hand auto-start। পরের hand-ও countdown শেষে শুরু হবে।
+- দুইজন player seat নিলে দশ সেকেন্ড পরে hand auto-start। পরের hand-ও countdown শেষে শুরু হবে।
 - No-limit all-in, side pots, split pot, unmatched chips refund ও winner animation।
 - Refresh/reconnect-এর পরে persisted hand ফিরে পাওয়া; অন্যের hole cards গোপন রাখা।
 - Admin থেকে user ban/unban, virtual-chip adjustment, খালি table-এর configuration, hand/ledger/audit দেখা।
-- দিনে ১০,০০০ পর্যন্ত free virtual-chip allowance এবং নতুন account-এ ৫,০০০ virtual chips। এগুলোর cash value নেই।
+- নতুন account-এ ০ chips; admin panel থেকে chips দিতে হবে। Chips-এর cash value নেই।
 
 Admin screen-এ latest ৫০০ user, ১০০ hand, ২০০ ledger entry ও ১০০ audit entry দেখা যায়। Filter ওই loaded records-এর ওপর কাজ করে; পুরোনো records SQL-এ থাকে।
 
@@ -102,8 +104,8 @@ Host যে port চায় সেটি দেবে। Aiven host/port ও Clou
 
 ## ৯. পরীক্ষা ও সীমাবদ্ধতা
 
-১৯টি automated check পাস করেছে। Test source code development verification-এর জন্য; app-এ bot বা fake activity যোগ করে না।
+৪২টি automated check পাস করেছে। Test source code development verification-এর জন্য; app-এ bot বা fake activity যোগ করে না।
 
-তোমার credentials ছাড়া live Aiven/Cloudinary connection পরীক্ষা করা হয়নি। PostgreSQL compatibility check emulator-এ হয়েছে। Responsive update-এ ৩২০–১৯২০px এবং landscape মাপে ৫৮টি browser page/layout check পাস করেছে। Mobile ও desktop gameplay screenshot দেখে যাচাই করা হয়েছে। এই browser checks-এ isolated API fixture ব্যবহার হয়েছে; live Aiven/Cloudinary data নয়। Admin/history table নিজস্ব panel-এ scroll করে; ছোট screen-এ poker seats আলাদা grid row-তে সাজে। Release-এর আগে নিজের database-এ `npm run db:check`, real profile photo upload এবং দুইটি আলাদা browser session দিয়ে gameplay পরীক্ষা করবে। বিস্তারিত architecture ও সীমাবদ্ধতা `README.md`-এ আছে।
+তোমার credentials ছাড়া live Aiven/Cloudinary connection পরীক্ষা করা হয়নি। PostgreSQL compatibility check emulator-এ হয়েছে। এই update-এ ৬৪টি browser layout check পাস করেছে। Release-এর আগে নিজের database-এ `npm run db:check`, real profile photo upload এবং দুইটি আলাদা browser session দিয়ে gameplay পরীক্ষা করবে। বিস্তারিত architecture ও সীমাবদ্ধতা `README.md`-এ আছে।
 
 এই package-এ email password reset, email verification, tournaments ও spectators যোগ করা হয়নি।

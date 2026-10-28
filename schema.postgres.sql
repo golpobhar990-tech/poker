@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS users (
  id BIGSERIAL PRIMARY KEY, username TEXT UNIQUE NOT NULL,
  email TEXT UNIQUE NOT NULL, name TEXT NOT NULL,
- password_hash TEXT NOT NULL, avatar TEXT, chips BIGINT NOT NULL DEFAULT 5000 CHECK(chips>=0),
+ password_hash TEXT NOT NULL, avatar TEXT, chips BIGINT NOT NULL DEFAULT 0 CHECK(chips>=0),
  settings TEXT NOT NULL DEFAULT '{"sound":true,"motion":true}',
  role TEXT NOT NULL DEFAULT 'player', banned BIGINT NOT NULL DEFAULT 0,
  created_at BIGINT NOT NULL, deleted_at BIGINT
@@ -48,3 +48,6 @@ CREATE TABLE IF NOT EXISTS admin_audit (
  id BIGSERIAL PRIMARY KEY, admin_id BIGINT NOT NULL REFERENCES users(id),
  action TEXT NOT NULL, target TEXT NOT NULL, details TEXT NOT NULL, created_at BIGINT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS club_fees (hand_id BIGINT NOT NULL REFERENCES hands(id), user_id BIGINT NOT NULL REFERENCES users(id), amount BIGINT NOT NULL CHECK(amount>0), created_at BIGINT NOT NULL, PRIMARY KEY(hand_id,user_id));
+ALTER TABLE users ALTER COLUMN chips SET DEFAULT 0;
