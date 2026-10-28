@@ -9,8 +9,8 @@ const {openDatabase,transaction,ledger}=require('../db'),{passwordHash,validateP
    // Fail rather than silently promoting an existing account by an email match.
    if(await db.prepare('SELECT id FROM users WHERE email=? OR username=?').get(email,username))throw Error('Account already exists. Choose a new admin email and username.');
    const r=await db.prepare("INSERT INTO users(username,email,name,password_hash,role,created_at) VALUES(?,?,?,?,'admin',?)").run(username,email,name,encoded,Date.now());
-   await ledger(db,r.lastInsertRowid,'welcome',5000,'Administrator welcome chips');
+   
    await db.prepare('INSERT INTO admin_audit(admin_id,action,target,details,created_at) VALUES(?,?,?,?,?)').run(r.lastInsertRowid,'admin_created',String(r.lastInsertRowid),'Created by server operator',Date.now());
-  });console.log('Administrator created. Sign in at / and open /admin. Remove ADMIN_PASSWORD from your environment after this command.');
+  });console.log('Administrator created. Sign in at /admin. Remove ADMIN_PASSWORD from your environment after this command.');
  }finally{await db.close();}
 })().catch(e=>{console.error(e.message);process.exitCode=1;});
