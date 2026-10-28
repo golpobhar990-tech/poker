@@ -1,0 +1,9 @@
+data/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.env
+node_modules/
+certs/
+*.pem
+coverage/

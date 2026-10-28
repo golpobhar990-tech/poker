@@ -1,0 +1,21 @@
+{
+  "name": "poker-four-club",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Live multiplayer virtual-chip poker with Aiven PostgreSQL, Cloudinary and administrator tools",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.js",
+    "admin:create": "node scripts/create-admin.js",
+    "db:check": "node scripts/check-db.js"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "pg-mem": "^3.0.14"
+  }
+}
